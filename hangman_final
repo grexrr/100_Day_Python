@@ -1,0 +1,58 @@
+from replit import clear
+import random
+import hangman_dict
+import hangman_art
+
+stages = hangman_art.stages
+
+end_game = False
+chosen_word = random.choice(hangman_dict.word_list)
+word_length = len(chosen_word)
+lives = 6
+
+print(hangman_art.logo + "\n") 
+print(f'Pssst, the solution is {chosen_word}.')
+
+
+display = []
+for _ in range(word_length):
+    display += "_"
+
+wrong_guess = []
+
+print(' '.join(display))
+print("\n")
+print(stages[lives])
+guess = input("Guess a letter: ").lower()
+
+
+while not end_game:  
+  clear()
+  correct_guess = False
+  for n in range(word_length): 
+    if guess == chosen_word[n]:
+        display[n] = guess
+        correct_guess = True  
+
+  if not correct_guess:
+    wrong_guess.append(guess)
+    print(f"You have already guested wrong: {' '.join(wrong_guess)}")
+    lives -= 1
+    
+
+  print(stages[lives])
+  print(' '.join(display))
+  
+  
+  if lives == 0:
+    end_game = True
+    print("You lose!")  
+    
+  elif "_" not in display:
+    end_game = True
+    print("You win!")
+
+  else:
+    guess = input("Guess a letter: ").lower() 
+    if guess in display:
+      print(f"You have already guessed {guess}.")
